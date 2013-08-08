@@ -11,11 +11,13 @@
 #THE CORRECT FILE PATHS
 
 # 1. ALLOW FOR CUSTOMIZATION OF LINES 11-12 (WHERE THE DIALOUGE SAYS IT WILL
-#SAVE THE FILE)
+#SAVE THE FILE
 
-# 2. GUI GUI GUI
-
+# 2. GUI GUI GUI9
+import wx
 import os
+
+
 
 print "File Creator 1.1"
 print "Enter the name of the file you want to create plus the extention"
@@ -23,11 +25,12 @@ print "Or type \"configure\" to set up your custom file location "
 print "ex - 'newfile.txt' "
 
 x = raw_input("File Name --->") #User inputs the name of file and extention
-if x != 'conf': 
+if x != 'configure': 
 
     print "where do you want to save the file?"
     f = open('conf.txt', 'r')
     lines = f.readlines()
+    
     print "1 -- " + lines[1]
     print "2 -- " + lines[3]
     f.close
@@ -35,10 +38,9 @@ if x != 'conf':
     location = int(raw_input("--->")) #Sets the variable for the if statement below this
 
     if location == 1:
-
         location = open('conf.txt', 'r')
         line = location.readlines()
-        f = open(line[0] + x , 'w+')
+        f = open(line[0].rstrip() + x , 'w+') #line[0].rstrip is required here to take \n off of the EOL
         print "Sucess"
         print line[0]
         f.close
@@ -46,22 +48,24 @@ if x != 'conf':
     if location == 2:
         location = open('conf.txt', 'r')
         line = location.readlines()
-        f = open(line[2] + x , 'w+')
+        f = open(line[2].rstrip() + x , 'w+')
         print "Sucess"
-        print line[0]
+        print line[2]
         f.close
         location.close
-    if location == 3:
+
+    # I dont know what this block of code does. So im just gonna comment it in case it's important.   
+    #if location == 3:
         #open the config file
-        f = open('conf.txt', 'r')
-        text = f.read()
+        #f = open('conf.txt', 'r')
+        #text = f.read()
 
         #open the file that the config points to
-        n = open (text, 'r')
-        print  "Sucess"
+        #n = open (text, 'r')
+        #print  "Sucess"
 
-        f.close
-        n.close
+        #f.close
+        #n.close
     
 else:
     f = open('conf.txt', 'w+')

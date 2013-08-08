@@ -66,6 +66,7 @@ if x != 'configure':
 
         #f.close
         #n.close
+    #this is some extra code to see if things auto-sync
     
 else:
     f = open('conf.txt', 'w+')

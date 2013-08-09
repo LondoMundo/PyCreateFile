@@ -13,23 +13,30 @@
 # 1. ALLOW FOR CUSTOMIZATION OF LINES 11-12 (WHERE THE DIALOUGE SAYS IT WILL
 #SAVE THE FILE
 
-# 2. GUI GUI GUI9
+# 2. GUI GUI GUI
 import wx
 import os
 
 class FileMain(wx.Frame):
     def __init__(self, parent, id):
-        wx.Frame.__init__(self, parent, id, "File Creator", size=(500,300))
+        f = open('conf.txt', 'r')
+        lines = f.readlines()
+        #f = open(line[2].rstrip() + x , 'w+')
+        wx.Frame.__init__(self, parent, id, "File Creator", size=(400, 150))
         panel = wx.Panel(self)
-        configureButton = wx.Button(panel, label = "configure", pos = (200, 0), size = (125,75))
-        self.Bind(wx.EVT_BUTTON, self.Configure, configureButton)
+        ConfigureButton = wx.Button(panel, label = "configure", pos = (200, 0), size = (175,75))
+        self.Bind(wx.EVT_BUTTON, self.Configure, ConfigureButton)
+        CreateFile = wx.Button(panel, label = "Create a file in " + lines[1] , pos = (0, 0), size = (150, 50))
+        self.Bind(wx.EVT_BUTTON, self.CreateFile, CreateFile)
+        DummyButton = wx.Button(panel, label = "other", pos = (200, 35), size = (175, 75))
+        self.Bind(wx.EVT_BUTTON, self.DummyPanel, DummyButton)
 
 
     def Configure(self, event):
-
-        configure2 = wx.TextEntryDialog(None, "Enter the path where you want to save files", "Configure", "include the last / on *nix systems")
-        if configure2.ShowModal()==wx.ID_OK:
-            path = configure2.GetValue()
+        '''Sets up the configuration file "config.txt" to point to user defined directorys'''
+        configure1 = wx.TextEntryDialog(None, "Enter the path where you want to save files", "Configure", "include the last / on *nix systems")
+        if configure1.ShowModal()==wx.ID_OK:
+            path = configure1.GetValue()
             path = str(path)
             f = open('conf.txt', 'w+')
             f.write(path)
@@ -41,21 +48,69 @@ class FileMain(wx.Frame):
             f.write(location)
             f.write("\n")
         
-##        
-##        print "Write the full path of where you want to save your file include the final forward slash on *nix"
-##        path = raw_input("--->")
-##        
-##        
-##        name = raw_input("What do you want to call this location?")
-##        f.write(name)
-##        second = raw_input("If you want to have a second file path to use, type the path here, otherwise press enter")
-##        f.write("\n")
-##        f.write(second)
-##        secondName = raw_input("What do you want to call this location")
-##        f.write("\n")
-##        f.write(secondName)
-##        f.close
+        configure2 = wx.TextEntryDialog(None, "Enter the path where you want to save files", "Configure", "include the last / on *nix systems")
+        if configure2.ShowModal()==wx.ID_OK:
+            path = configure2.GetValue()
+            path = str(path)
+            f.write(path)
+            f.write("\n")
+        location2 = wx.TextEntryDialog(None, "What do you want to call this location?", "Location", "")
+        if location2.ShowModal()==wx.ID_OK:
+            location2 = location2.GetValue()
+            location2 = str(location2)
+            f.write(location2)
+            f.write("\n")
+
+    def CreateFile(self, event):
         
+        fileBox = wx.TextEntryDialog(None, "Enter what you want to name your file, with the extention", "Create File", "example.txt")
+        fileBox.ShowModal()
+        fileName = fileBox.GetValue()
+        fileName = str(fileName)
+
+        location = open('conf.txt', 'r')
+        line = location.readlines()
+
+        buttonPanel = wx.Panel(self)
+        leftButton = wx.Button(buttonPanel, label = line[1], pos = (0, 0), size = (125,75))
+        rightButton = wx.Button(buttonPanel, label = line[3], pos = (125, 0), size = (175, 75))
+        
+        #f = open(line[0].rstrip() + fileName
+
+    def DummyPanel(self, event):
+        wx.Frame.__init__(self, parent, id, "File Creator", size=(300,75))
+        panel = wx.Panel(self)
+        
+        
+        
+
+##    print "where do you want to save the file?"
+##    f = open('conf.txt', 'r')
+##    lines = f.readlines()
+##    
+##    print "1 -- " + lines[1]
+##    print "2 -- " + lines[3]
+##    f.close
+##
+##    location = int(raw_input("--->")) #Sets the variable for the if statement below this
+##
+##    if location == 1:
+##        location = open('conf.txt', 'r')
+##        line = location.readlines()
+##        f = open(line[0].rstrip() + x , 'w+') #line[0].rstrip is required here to take \n off of the EOL
+##        print "Sucess"
+##        print line[0]
+##        f.close
+##        location.close
+##    if location == 2:
+##        location = open('conf.txt', 'r')
+##        line = location.readlines()
+##        f = open(line[2].rstrip() + x , 'w+')
+##        print "Sucess"
+##        print line[2]
+##        f.close
+##        location.close
+##        
 
 if __name__ == '__main__':
     app=wx.PySimpleApp()

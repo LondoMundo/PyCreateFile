@@ -1,35 +1,46 @@
-#CUSTOM FILEPATH IS BROKEN FIGURE OUT WHY f.write(str) ISNT WRITING TO conf.txt
-
-# FILE CREATOR 1.0
-# WRITTEN BY COLIN MURPHY
-# THIS CODE MAY BE REDISTRIBUTED OR ALTERED, BUT NOT SOLD
+##<one line to give the program's name and a brief idea of what it does.>
+##Copyright (C) <year>  <name of author>
+##
+##This program is free software: you can redistribute it and/or modify
+##it under the terms of the GNU General Public License as published by
+##the Free Software Foundation, either version 3 of the License, or
+##(at your option) any later version.
+##
+##This program is distributed in the hope that it will be useful,
+##but WITHOUT ANY WARRANTY; without even the implied warranty of
+##MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+##GNU General Public License for more details.
+##
+##You should have received a copy of the GNU General Public License
+##along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #TODO
-
-# DONE. ADD A CONFIGURATION FILE SO THE USER CAN SET WHERE FILES ARE TO BE SAVED TO
-#THIS WILL MAKE THE SCRIPT WORK ON ANY COMPUTER SO LONG AS THE USER INPUTS
-#THE CORRECT FILE PATHS
-
-# 1. ALLOW FOR CUSTOMIZATION OF LINES 11-12 (WHERE THE DIALOUGE SAYS IT WILL
-#SAVE THE FILE
-
-# 2. GUI GUI GUI
 import wx
 import os
 
 class FileMain(wx.Frame):
     def __init__(self, parent, id):
-        f = open('conf.txt', 'r')
-        lines = f.readlines()
-        #f = open(line[2].rstrip() + x , 'w+')
-        wx.Frame.__init__(self, parent, id, "File Creator", size=(400, 150))
-        panel = wx.Panel(self)
-        ConfigureButton = wx.Button(panel, label = "configure", pos = (200, 0), size = (175,75))
-        self.Bind(wx.EVT_BUTTON, self.Configure, ConfigureButton)
-        CreateFile = wx.Button(panel, label = "Create a file in " + lines[1] , pos = (0, 0), size = (150, 50))
-        self.Bind(wx.EVT_BUTTON, self.CreateFile, CreateFile)
-        DummyButton = wx.Button(panel, label = "other", pos = (200, 35), size = (175, 75))
-        self.Bind(wx.EVT_BUTTON, self.DummyPanel, DummyButton)
+        try:
+            f = open('conf.txt', 'r')
+            lines = f.readlines()
+            #f = open(line[2].rstrip() + x , 'w+')
+            tryFrame = wx.Frame.__init__(self, parent, id, "File Creator", size=(400, 150))
+            panel = wx.Panel(self)
+            ConfigureButton = wx.Button(panel, label = "Configure", pos = (200, 0), size = (175,75))
+            self.Bind(wx.EVT_BUTTON, self.Configure, ConfigureButton)
+            LeftCreateFile = wx.Button(panel, label = "Create a file in " + lines[1] , pos = (0, 0), size = (150, 50))
+            self.Bind(wx.EVT_BUTTON, self.LeftCreateFile, LeftCreateFile)
+            RightCreateFile = wx.Button(panel, label = "Create a file in " + lines[3], pos = (0,53), size = (150, 50))
+            
+            DummyButton = wx.Button(panel, label = "other", pos = (200, 35), size = (175, 75))
+            self.Bind(wx.EVT_BUTTON, self.DummyPanel, DummyButton)
+        except:
+            exceptFrame = wx.Frame.__init__(self, parent, id, "File Creator", size=(400, 150))
+            panel = wx.Panel(self)
+            ConfigureButton = wx.Button(panel, label = "Configure", pos = (200, 0), size = (175,75))
+            self.Bind(wx.EVT_BUTTON, self.Configure, ConfigureButton)
+            
+        
 
 
     def Configure(self, event):
@@ -60,26 +71,18 @@ class FileMain(wx.Frame):
             location2 = str(location2)
             f.write(location2)
             f.write("\n")
-
-    def CreateFile(self, event):
+    def LeftCreateFile(self, event):
+        pass
+    def RightCreateFile(self, event):
+        pass
+    def DummyPanel(self, event):
+        fileDialog = wx.DirDialog(self)
+        fileDialog.ShowModal()
+        Name = fileDialog.GetPath()
+        print Name
         
-        fileBox = wx.TextEntryDialog(None, "Enter what you want to name your file, with the extention", "Create File", "example.txt")
-        fileBox.ShowModal()
-        fileName = fileBox.GetValue()
-        fileName = str(fileName)
-
-        location = open('conf.txt', 'r')
-        line = location.readlines()
-
-        buttonPanel = wx.Panel(self)
-        leftButton = wx.Button(buttonPanel, label = line[1], pos = (0, 0), size = (125,75))
-        rightButton = wx.Button(buttonPanel, label = line[3], pos = (125, 0), size = (175, 75))
         
         #f = open(line[0].rstrip() + fileName
-
-    def DummyPanel(self, event):
-        wx.Frame.__init__(self, parent, id, "File Creator", size=(300,75))
-        panel = wx.Panel(self)
         
         
         

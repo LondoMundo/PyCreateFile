@@ -23,17 +23,16 @@ class FileMain(wx.Frame):
         try:
             f = open('conf.txt', 'r')
             lines = f.readlines()
-            #f = open(line[2].rstrip() + x , 'w+')
-            tryFrame = wx.Frame.__init__(self, parent, id, "File Creator", size=(400, 150))
+            tryFrame = wx.Frame.__init__(self, parent, id, "File Creator", size=(375, 150))
             panel = wx.Panel(self)
             ConfigureButton = wx.Button(panel, label = "Configure", pos = (200, 0), size = (175,75))
             self.Bind(wx.EVT_BUTTON, self.Configure, ConfigureButton)
-            LeftCreateFile = wx.Button(panel, label = "Create a file in " + lines[1] , pos = (0, 0), size = (150, 50))
+            LeftCreateFile = wx.Button(panel, label = "Create a file in " + lines[1] , pos = (0, 0), size = (200, 75))
             self.Bind(wx.EVT_BUTTON, self.LeftCreateFile, LeftCreateFile)
-            RightCreateFile = wx.Button(panel, label = "Create a file in " + lines[3], pos = (0,53), size = (150, 50))
+            RightCreateFile = wx.Button(panel, label = "Create a file in " + lines[3], pos = (0, 75), size = (200, 75))
             self.Bind(wx.EVT_BUTTON, self.RightCreateFile, RightCreateFile)
             
-            DummyButton = wx.Button(panel, label = "other", pos = (200, 35), size = (175, 75))
+            DummyButton = wx.Button(panel, label = "License", pos = (200, 75), size = (175, 75))
             self.Bind(wx.EVT_BUTTON, self.DummyPanel, DummyButton)
         except:
             exceptFrame = wx.Frame.__init__(self, parent, id, "File Creator", size=(400, 150))
@@ -46,12 +45,14 @@ class FileMain(wx.Frame):
 
     def Configure(self, event):
         '''Sets up the configuration file "config.txt" to point to user defined directorys'''
-        configure1 = wx.TextEntryDialog(None, "Enter the path where you want to save files", "Configure", "include the last / on *nix systems")
+        configure1 = wx.DirDialog(None)
         if configure1.ShowModal()==wx.ID_OK:
-            path = configure1.GetValue()
+            print configure1
+            path = configure1.GetPath()
             path = str(path)
+            print path
             f = open('conf.txt', 'w+')
-            f.write(path)
+            f.write(path + "/") #this '/' needs to be removable for users on Windows systems.
             f.write("\n")
         location = wx.TextEntryDialog(None, "What do you want to call this location?", "Location", "")
         if location.ShowModal()==wx.ID_OK:
@@ -60,11 +61,12 @@ class FileMain(wx.Frame):
             f.write(location)
             f.write("\n")
         
-        configure2 = wx.TextEntryDialog(None, "Enter the path where you want to save files", "Configure", "include the last / on *nix systems")
+        configure2 = wx.DirDialog(None)
         if configure2.ShowModal()==wx.ID_OK:
-            path = configure2.GetValue()
+            path = configure2.GetPath()
             path = str(path)
-            f.write(path)
+            print path
+            f.write(path + "/")
             f.write("\n")
         location2 = wx.TextEntryDialog(None, "What do you want to call this location?", "Location", "")
         if location2.ShowModal()==wx.ID_OK:
@@ -95,10 +97,9 @@ class FileMain(wx.Frame):
         newFile.close
         
     def DummyPanel(self, event):
-        fileDialog = wx.DirDialog(self)
-        fileDialog.ShowModal()
-        Name = fileDialog.GetPath()
-        print Name
+        box = wx.MessageDialog(None, "This program is Licensed under the GNU GPLv3. By using this software, you agree to the terms of the GPL", "License", wx.OK)
+        box.ShowModal()
+        
         
         
         #f = open(line[0].rstrip() + fileName

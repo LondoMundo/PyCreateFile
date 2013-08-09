@@ -1,4 +1,4 @@
-/Users/colin/Desktop/
+/home/colin/Desktop/
 Desktop
-/Users/colin/Documents/
+/home/colin/Documents/
 Documents

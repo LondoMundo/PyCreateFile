@@ -1,5 +1,5 @@
-##<one line to give the program's name and a brief idea of what it does.>
-##Copyright (C) <year>  <name of author>
+## This program is designed to simplify the file creation process.
+##(C) <2013>  <Colin Murphy>
 ##
 ##This program is free software: you can redistribute it and/or modify
 ##it under the terms of the GNU General Public License as published by
@@ -14,7 +14,7 @@
 ##You should have received a copy of the GNU General Public License
 ##along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#TODO
+#IMPORTANT: For some reason the program WILL NOT RUN without a config.txt file in the same directory as this. I think it has something to do with try: and except:
 import wx
 import os
 
@@ -31,6 +31,7 @@ class FileMain(wx.Frame):
             LeftCreateFile = wx.Button(panel, label = "Create a file in " + lines[1] , pos = (0, 0), size = (150, 50))
             self.Bind(wx.EVT_BUTTON, self.LeftCreateFile, LeftCreateFile)
             RightCreateFile = wx.Button(panel, label = "Create a file in " + lines[3], pos = (0,53), size = (150, 50))
+            self.Bind(wx.EVT_BUTTON, self.RightCreateFile, RightCreateFile)
             
             DummyButton = wx.Button(panel, label = "other", pos = (200, 35), size = (175, 75))
             self.Bind(wx.EVT_BUTTON, self.DummyPanel, DummyButton)
@@ -71,10 +72,28 @@ class FileMain(wx.Frame):
             location2 = str(location2)
             f.write(location2)
             f.write("\n")
+            f.close()
     def LeftCreateFile(self, event):
-        pass
+        ''' creates a file from the button on top '''
+        FileName = wx.TextEntryDialog(None, "what do you want to call this file?", "File Creator", "example.txt")
+        FileName.ShowModal()
+        Input = FileName.GetValue()
+        f = open('conf.txt', 'r')
+        lines = f.readlines()
+        newFile = open(lines[0].rstrip() + Input, 'w+') #rstrip is required to strip \n from the EOL
+        f.close()
+        newFile.close
     def RightCreateFile(self, event):
-        pass
+        ''' creates a file from the button on bottom '''
+        NextFileName = wx.TextEntryDialog(None, "what do you want to call this file?", "File Creator", "example.txt")
+        NextFileName.ShowModal()
+        Input = NextFileName.GetValue()
+        f = open('conf.txt', 'r')
+        lines = f.readlines()
+        newFile = open(lines[2].rstrip() + Input, 'w+') #rstrip is required to strip \n from the EOL
+        f.close()
+        newFile.close
+        
     def DummyPanel(self, event):
         fileDialog = wx.DirDialog(self)
         fileDialog.ShowModal()

@@ -1,0 +1,1 @@
+PyCreateFile is a program that helps create a file where ever you want. This is helpful on systems where there is no Right Click > create file *cough OSX* or where there are limited options on what kind of file that you can create.
